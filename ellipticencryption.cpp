@@ -9,18 +9,33 @@ void handleErrors() {
     abort();
 }
 
-EC_KEY* generateKey() {
-    EC_KEY* key = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);  // Choose the curve
-    if (!EC_KEY_generate_key(key)) {
+EVP_PKEY* generateECKey() {
+    EVP_PKEY_CTX* pkey_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, nullptr);
+    if (!pkey_ctx) {
         handleErrors();
     }
-    return key;
+
+    if (EVP_PKEY_keygen_init(pkey_ctx) <= 0) {
+        handleErrors();
+    }
+
+    if (EVP_PKEY_CTX_set_ec_paramgen_curve_nid(pkey_ctx, NID_X9_62_prime256v1) <= 0) {
+        handleErrors();
+    }
+
+    EVP_PKEY* pkey = nullptr;
+    if (EVP_PKEY_keygen(pkey_ctx, &pkey) <= 0) {
+        handleErrors();
+    }
+
+    EVP_PKEY_CTX_free(pkey_ctx);
+    return pkey;
 }
 
-void printKey(EC_KEY* key) {
+void printKey(EVP_PKEY* pkey) {
     BIO* out = BIO_new_fp(stdout, BIO_NOCLOSE);
-    PEM_write_bio_ECPrivateKey(out, key, nullptr, nullptr, 0, nullptr, nullptr);
-    PEM_write_bio_EC_PUBKEY(out, key);
+    PEM_write_bio_PrivateKey(out, pkey, nullptr, nullptr, 0, nullptr, nullptr);
+    PEM_write_bio_PUBKEY(out, pkey);
     BIO_free(out);
 }
 
@@ -29,17 +44,17 @@ int main() {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-    // Generate the ECC key pair
-    EC_KEY* key = generateKey();
-    if (!key) {
+    // Generate the ECC key pair using the new EVP API
+    EVP_PKEY* pkey = generateECKey();
+    if (!pkey) {
         handleErrors();
     }
 
     std::cout << "Generated ECC Key Pair:\n";
-    printKey(key);
+    printKey(pkey);
 
     // Free resources
-    EC_KEY_free(key);
+    EVP_PKEY_free(pkey);
     EVP_cleanup();
     ERR_free_strings();
 
