@@ -1,4 +1,5 @@
-Elliptic Curve Cryptography (ECC) is a type of public-key cryptography that uses the mathematics of elliptic curves to provide encryption and secure communication. **Elliptic encryption** refers to the cryptographic methods built upon this mathematical framework.
+## Elliptic Curve Cryptography (ECC)
+ is a type of public-key cryptography that uses the mathematics of elliptic curves to provide encryption and secure communication. **Elliptic encryption** refers to the cryptographic methods built upon this mathematical framework.
 
 ### Key concepts of Elliptic Encryption:
 1. **Elliptic Curves**: These are algebraic curves described by an equation of the form:
