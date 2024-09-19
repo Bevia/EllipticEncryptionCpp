@@ -10,4 +10,4 @@ brew install openssl
 
 ### Running 
 
-g++ -std=c++11 -o ecc_example ecc_example.cpp -lssl -lcrypto
+g++ -std=c++11 -o eccellipticencryption_example ellipticencryption.cpp -lssl -lcrypto
