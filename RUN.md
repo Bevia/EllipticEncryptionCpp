@@ -10,10 +10,6 @@ brew install openssl
 
 ### Running 
 
-
-g++ -std=c++11 -o ellipticencryptionraw ellipticencryptionraw.cpp -lboost_system -lboost_serialization
-
-
 if you run into openssl installation errors find where openssl is installed:
 check where OpenSSL is installed on your system. Run the following command:
 brew --prefix openssl
@@ -24,6 +20,13 @@ in my case this is the route:
 g++ -o encrypting -std=c++11 ellipticencryption.cpp -I/opt/homebrew/opt/openssl/include -L/opt/homebrew/opt/openssl/lib -lssl -lcrypto
 
 ./encrypting
+
+### running the raw file:
+/opt/homebrew/opt/boost
+
+g++ -std=c++14 -o ellipticencryptionraw ellipticencryptionraw.cpp -I/opt/homebrew/opt/boost/include -L/opt/homebrew/opt/boost/lib -lboost_system -lboost_serialization
+
+./ellipticencryptionraw
 
 ## Results:
 Generated ECC Key Pair:
