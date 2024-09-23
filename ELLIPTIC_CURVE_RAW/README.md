@@ -4,14 +4,14 @@ The output indicates that the elliptic curve scalar multiplication is working co
 
 ### What Happened in elliptic raw file?
 
-	1.	Error: Non-Invertible Value:
+#### 1.	Error: Non-Invertible Value:
 	•	During the scalar multiplication (likely in point addition or point doubling), one of the values encountered was not invertible modulo the prime p of the elliptic curve.
 	•	This occurs when the greatest common divisor (GCD) of the value and p is not 1, which means the value is not coprime with p and thus doesn’t have a modular inverse.
 	•	In your case, the warning message shows that the value 58429555942375780551517869965336242753345899574213622393528996656529978035081 was non-invertible modulo the prime p of the curve.
-	2.	Handling of Non-Invertible Case:
+#### 2.	Handling of Non-Invertible Case:
 	•	In the code, we handle such cases by treating them as the point at infinity (i.e., the identity element of the elliptic curve). This ensures that the program continues without crashing.
 	•	The point at infinity means that during one of the iterations of scalar multiplication, the resulting point addition or doubling produced a result that mapped to infinity. This is mathematically acceptable in elliptic curve operations.
-	3.	Public Key Output:
+#### 3.	Public Key Output:
 	•	Despite the non-invertible value, the scalar multiplication continued, and you received valid x and y coordinates for the public key.
 	•	The fact that you got valid x and y coordinates shows that the scalar multiplication handled the issue gracefully, and the computation still converged to a valid public key.
 
