@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.java": "java-properties",
+        "ios": "cpp",
+        "random": "cpp"
+    }
+}
