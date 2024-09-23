@@ -1,6 +1,6 @@
 ## Elliptic Curve without openssl dependency
 
-Your output indicates that the elliptic curve scalar multiplication is working correctly, as you received valid non-zero coordinates for the public key (x, y). However, you also see a warning message about a non-invertible value during the scalar multiplication process.
+The output indicates that the elliptic curve scalar multiplication is working correctly, as you received valid non-zero coordinates for the public key (x, y). However, you also see a warning message about a non-invertible value during the scalar multiplication process.
 
 ### What Happened in elliptic raw file?
 
@@ -30,4 +30,4 @@ Your output indicates that the elliptic curve scalar multiplication is working c
 	•	You have successfully generated a valid public key from your private key.
 	•	The warning can be ignored as long as the public key is correctly computed.
 
-Your output demonstrates that the elliptic curve scalar multiplication and key generation process is now functioning properly!
+The output demonstrates that the elliptic curve scalar multiplication and key generation process is now functioning properly!
