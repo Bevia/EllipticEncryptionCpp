@@ -10,7 +10,9 @@ brew install openssl
 
 ### Running 
 
-g++ -std=c++11 -o ellipticencryption ellipticencryption.cpp -lssl -lcrypto
+
+g++ -std=c++11 -o ellipticencryptionraw ellipticencryptionraw.cpp -lboost_system -lboost_serialization
+
 
 if you run into openssl installation errors find where openssl is installed:
 check where OpenSSL is installed on your system. Run the following command:
@@ -34,5 +36,4 @@ MfEcbDplmNcCVHPo48Ns7E9sQzoYY7+tj4cet2Sm/4Knb9Pc6btvKPKM
 -----BEGIN PUBLIC KEY----- 
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXTe1ZzZVwQy4yikSYx0TF2KwBPrI
 VDHxHGw6ZZjXAlRz6OPDbOxPbEM6GGO/rY+HHrdkpv+Cp2/T3Om7byjyjA==
------END PUBLIC KEY-----
-
+-----END PUBLIC KEY---
