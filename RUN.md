@@ -21,13 +21,6 @@ g++ -o encrypting -std=c++11 ellipticencryption.cpp -I/opt/homebrew/opt/openssl/
 
 ./encrypting
 
-### running the raw file:
-/opt/homebrew/opt/boost
-
-g++ -std=c++14 -o ellipticencryptionraw ellipticencryptionraw.cpp -I/opt/homebrew/opt/boost/include -L/opt/homebrew/opt/boost/lib -lboost_system -lboost_serialization
-
-./ellipticencryptionraw
-
 ## Results:
 Generated ECC Key Pair:
 -----BEGIN PRIVATE KEY-----
