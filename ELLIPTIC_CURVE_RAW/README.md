@@ -1,4 +1,4 @@
-## Elliptic Curve without openssl dependency
+## Elliptic Curve without openssl dependency (raw)
 
 The output indicates that the elliptic curve scalar multiplication is working correctly, as you received valid non-zero coordinates for the public key (x, y). However, you also see a warning message about a non-invertible value during the scalar multiplication process.
 
