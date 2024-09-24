@@ -2,6 +2,12 @@
 
 The output indicates that the elliptic curve scalar multiplication is working correctly, as you received valid non-zero coordinates for the public key (x, y). However, you also see a warning message about a non-invertible value during the scalar multiplication process.
 
+###	Why Use Boost?
+
+	•	Performance: Boost libraries are optimized for performance and designed to work efficiently with modern C++.
+	•	Reliability: Boost is rigorously tested and peer-reviewed, ensuring high reliability and robustness.
+	•	Extensibility: Many of the Boost libraries provide additional features and utilities that are either not present in the standard C++ library or extend its functionality.
+
 ### What Happened in elliptic raw file?
 
 #### 1.	Error: Non-Invertible Value:
