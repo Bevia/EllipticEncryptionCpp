@@ -23,3 +23,5 @@ add_executable(ecc_example src/main.cpp)
 
 # Link Boost libraries to your executable
 target_link_libraries(ecc_example ${Boost_LIBRARIES})
+
+message("CMakeLists.txt is being processed")
