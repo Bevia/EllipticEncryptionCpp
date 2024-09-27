@@ -11,17 +11,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Find the Boost package (Make sure to specify the components you need)
 find_package(Boost 1.70 REQUIRED COMPONENTS serialization system)
 
-# Include Boost headers
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-else()
-    message(FATAL_ERROR "Boost not found!")
-endif()
+cmake_minimum_required(VERSION 3.10)
 
-# Add the executable for your project
-add_executable(ecc_example src/main.cpp)
+project(ECCExample)
 
-# Link Boost libraries to your executable
-target_link_libraries(ecc_example ${Boost_LIBRARIES})
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Find OpenSSL
+find_package(OpenSSL REQUIRED)
+
+# Include directories for OpenSSL
+include_directories(${OPENSSL_INCLUDE_DIR})
+
+# Link OpenSSL libraries
+add_executable(ecc_example ecc_example.cpp)
+target_link_libraries(ecc_example ${OPENSSL_LIBRARIES})
 
 message("CMakeLists.txt is being processed")
