@@ -1,3 +1,10 @@
 1.	Install Crypto Libraries:
 You’ll need an AES encryption library like OpenSSL or a C++ wrapper for symmetric encryption.
 Install OpenSSL (if not already installed):
+
+brew install openssl
+
+2.	ECDH Key Exchange:
+Modify the code to include Elliptic Curve Diffie-Hellman (ECDH) to generate a shared secret.
+3.	Symmetric Encryption (AES):
+Use the shared secret from ECDH to derive a key for AES encryption.
