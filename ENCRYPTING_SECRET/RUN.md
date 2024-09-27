@@ -22,6 +22,17 @@ g++ -o ecc_encryption_secret -std=c++14 ./ENCRYPTING_SECRET/ecc_encryption_secre
 
 or:
 
-g++ -std=c++11 -o ecc_ecc_encryption_secretexample ./ENCRYPTING_SECRET/ecc_encryption_secret.cpp -I/usr/local/opt/openssl@3/include -L/usr/local/opt/openssl@3/lib -lssl -lcrypto
+g++ -std=c++14 -o ecc_ecc_encryption_secretexample ./ENCRYPTING_SECRET/ecc_encryption_secret.cpp -I/usr/local/opt/openssl@3/include -L/usr/local/opt/openssl@3/lib -lssl -lcrypto
+
+
+g++ -std=c++14 -o ecc_ecc_encryption_secretexample ./ENCRYPTING_SECRET/ecc_encryption_secret.cpp -I/opt/homebrew/opt/boost/include -L/opt/homebrew/opt/boost/lib -lboost_system -lboost_serialization
 
 ./ecc_encryption_secret
+
+### Using big num
+
+g++ -std=c++11 -o ecc_encrypt_secret_bignum ./ENCRYPTING_SECRET/ecc_encrypt_secret_bignum.cpp -I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib -lssl -lcrypto
+
+g++ -o ecc_encrypt_secret_bignum -std=c++11 ./ENCRYPTING_SECRET/ecc_encrypt_secret_bignum.cpp -I/opt/homebrew/opt/openssl/include -L/opt/homebrew/opt/openssl/lib -lssl -lcrypto
+
+./ecc_encrypt_secret_bignum
