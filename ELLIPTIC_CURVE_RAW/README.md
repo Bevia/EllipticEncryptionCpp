@@ -62,3 +62,12 @@ y^2 = x^3 + ax + b \ (\text{mod} \ p)
 
 ### How to Convert x and y into a Single Key String
 
+Explanation:
+
+	1.	Public Key Format:
+The public key is represented as:
+	•	A prefix 04, which indicates an uncompressed ECC public key.
+	•	The x coordinate in hexadecimal.
+	•	The y coordinate in hexadecimal.
+The public_key_to_string() function concatenates these into a single string.
+

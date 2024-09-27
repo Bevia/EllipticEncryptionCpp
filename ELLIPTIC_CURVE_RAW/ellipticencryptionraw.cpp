@@ -22,6 +22,13 @@ const cpp_int ORDER = from_hex_string("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA
 const cpp_int A = from_hex_string("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC");
 const cpp_int B = from_hex_string("5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B");
 
+// Function to concatenate x and y into a single string with a '04' prefix
+std::string public_key_to_string(const cpp_int& x, const cpp_int& y) {
+    std::ostringstream oss;
+    oss << "04" << std::hex << x << y;  // '04' for uncompressed keys
+    return oss.str();
+}
+
 // GCD function to check if a and p are coprime
 cpp_int gcd(cpp_int a, cpp_int b) {
     while (b != 0) {
@@ -35,12 +42,6 @@ cpp_int gcd(cpp_int a, cpp_int b) {
 // Modulo inverse function using extended Euclidean algorithm
 cpp_int mod_inv(cpp_int a, cpp_int p) {
     a %= p;  // Ensure a is in the field (mod p)
-    if (gcd(a, p) != 1) {
-        // If not invertible, return point at infinity case.
-        std::cerr << "Warning: Value " << a << " is not invertible modulo " << p << ". Treating this case as point at infinity.\n";
-        return 0;  // Return 0 for point at infinity.
-    }
-
     cpp_int t = 0, new_t = 1;
     cpp_int r = p, new_r = a;
 
@@ -50,11 +51,7 @@ cpp_int mod_inv(cpp_int a, cpp_int p) {
         std::tie(r, new_r) = std::make_pair(new_r, r - quotient * new_r);
     }
 
-    if (r > 1) {
-        std::cerr << "Error: Value " << a << " is not invertible modulo " << p << "\n";
-        return 0;  // Return 0 for point at infinity.
-    }
-    if (t < 0) t = t + p;
+    if (t < 0) t += p;
 
     return t;
 }
@@ -62,7 +59,7 @@ cpp_int mod_inv(cpp_int a, cpp_int p) {
 // Point on the elliptic curve
 struct Point {
     cpp_int x, y;
-    bool is_infinity = false; // This represents the point at infinity (identity element in elliptic curve group)
+    bool is_infinity = false; // This represents the point at infinity
 };
 
 // Elliptic curve point addition
@@ -70,30 +67,14 @@ Point point_add(const Point& P, const Point& Q, const cpp_int& p) {
     if (P.is_infinity) return Q;
     if (Q.is_infinity) return P;
 
-    // If P == -Q (i.e., their x coordinates are the same but their y coordinates are negatives), return infinity
-    if (P.x == Q.x && (P.y != Q.y || P.y == 0)) {
-        return {0, 0, true}; // Point at infinity (P + -P = 0 or when P.y == 0 in point doubling)
-    }
-
     cpp_int lambda;
     if (P.x == Q.x && P.y == Q.y) {
-        // Point Doubling
         cpp_int num = (3 * P.x * P.x + A) % p;
         cpp_int den = (2 * P.y) % p;
-        if (den == 0 || gcd(den, p) != 1) {
-            // Handle the case where doubling a point with P.y == 0 returns the point at infinity
-            std::cerr << "Warning: Denominator " << den << " is not invertible during point doubling. Returning point at infinity.\n";
-            return {0, 0, true};  // Point at infinity
-        }
         lambda = (num * mod_inv(den, p)) % p;
     } else {
-        // Point Addition
         cpp_int num = (Q.y - P.y) % p;
         cpp_int den = (Q.x - P.x) % p;
-        if (den == 0 || gcd(den, p) != 1) {
-            std::cerr << "Warning: Denominator " << den << " is not invertible during point addition. Returning point at infinity.\n";
-            return {0, 0, true};  // Point at infinity
-        }
         lambda = (num * mod_inv(den, p)) % p;
     }
 
@@ -131,7 +112,6 @@ cpp_int generate_private_key() {
     std::size_t bit_shift = 0;
     const std::size_t bit_chunk_size = 64;
 
-    // Generate random 64-bit chunks to construct the large cpp_int value
     while (bit_shift < 256) {
         std::uniform_int_distribution<uint64_t> dist(0, std::numeric_limits<uint64_t>::max());
         cpp_int chunk = dist(gen);
@@ -139,8 +119,8 @@ cpp_int generate_private_key() {
         bit_shift += bit_chunk_size;
     }
 
-    random_value %= ORDER - 1; // Ensure random_value is less than ORDER
-    random_value += 1;         // Ensure random_value is at least 1
+    random_value %= ORDER - 1;
+    random_value += 1;
 
     return random_value;
 }
@@ -161,10 +141,16 @@ int main() {
     // Calculate public key based on scalar multiplication
     Point public_key = scalar_mult(G, private_key, PRIME);
 
-    // Output public key
-    std::cout << "Public Key:\n";
+    // Output public key components (x and y)
+    std::cout << "Public Key Coordinates:\n";
     std::cout << "x: " << std::hex << public_key.x << "\n";
     std::cout << "y: " << std::hex << public_key.y << "\n";
+
+    // Convert the x and y coordinates into a single public key string (uncompressed)
+    std::string public_key_string = public_key_to_string(public_key.x, public_key.y);
+
+    // Output the concatenated public key
+    std::cout << "Public Key (Concatenated): " << public_key_string << std::endl;
 
     return 0;
 }
