@@ -2,6 +2,7 @@
 #include <boost/multiprecision/cpp_int.hpp>
 #include <random>
 #include <sstream>
+#include <string>
 
 using namespace boost::multiprecision;
 
@@ -22,11 +23,37 @@ const cpp_int ORDER = from_hex_string("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA
 const cpp_int A = from_hex_string("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC");
 const cpp_int B = from_hex_string("5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B");
 
+// Point on the elliptic curve
+struct Point {
+    cpp_int x, y;
+    bool is_infinity = false; // This represents the point at infinity (identity element in elliptic curve group)
+};
+
 // Function to concatenate x and y into a single string with a '04' prefix
 std::string public_key_to_string(const cpp_int& x, const cpp_int& y) {
     std::ostringstream oss;
     oss << "04" << std::hex << x << y;  // '04' for uncompressed keys
     return oss.str();
+}
+
+// Function to split the public key string back into x and y coordinates
+Point string_to_public_key(const std::string& public_key_str) {
+    if (public_key_str.substr(0, 2) != "04") {
+        throw std::invalid_argument("Invalid public key format. Must start with '04'.");
+    }
+
+    // Remove the '04' prefix
+    std::string key_without_prefix = public_key_str.substr(2);
+
+    // Split the key into x and y (each half the length of the remaining string)
+    std::string x_hex = key_without_prefix.substr(0, key_without_prefix.length() / 2);
+    std::string y_hex = key_without_prefix.substr(key_without_prefix.length() / 2);
+
+    // Convert x and y from hex strings to cpp_int
+    cpp_int x = from_hex_string(x_hex);
+    cpp_int y = from_hex_string(y_hex);
+
+    return {x, y, false};  // Return the point (x, y)
 }
 
 // GCD function to check if a and p are coprime
@@ -55,12 +82,6 @@ cpp_int mod_inv(cpp_int a, cpp_int p) {
 
     return t;
 }
-
-// Point on the elliptic curve
-struct Point {
-    cpp_int x, y;
-    bool is_infinity = false; // This represents the point at infinity
-};
 
 // Elliptic curve point addition
 Point point_add(const Point& P, const Point& Q, const cpp_int& p) {
@@ -151,6 +172,14 @@ int main() {
 
     // Output the concatenated public key
     std::cout << "Public Key (Concatenated): " << public_key_string << std::endl;
+
+    // Convert the concatenated public key string back into the original x and y coordinates
+    Point recovered_public_key = string_to_public_key(public_key_string);
+
+    // Output the recovered public key coordinates
+    std::cout << "Recovered Public Key Coordinates:\n";
+    std::cout << "x: " << std::hex << recovered_public_key.x << "\n";
+    std::cout << "y: " << std::hex << recovered_public_key.y << "\n";
 
     return 0;
 }
