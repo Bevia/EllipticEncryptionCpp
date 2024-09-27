@@ -8,3 +8,7 @@ brew install openssl
 Modify the code to include Elliptic Curve Diffie-Hellman (ECDH) to generate a shared secret.
 3.	Symmetric Encryption (AES):
 Use the shared secret from ECDH to derive a key for AES encryption.
+
+### Full Code Example:
+
+This example includes ECC key generation, shared secret derivation via ECDH, and AES encryption/decryption using the derived shared key.
