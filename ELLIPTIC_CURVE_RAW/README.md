@@ -38,4 +38,27 @@ Boost is an essential library for C++ developers, offering a wide variety of too
 	•	You have successfully generated a valid public key from your private key.
 	•	The warning can be ignored as long as the public key is correctly computed.
 
+## The output
 The output demonstrates that the elliptic curve scalar multiplication and key generation process is now functioning properly!
+
+The x and y values you’re seeing are the two components of an elliptic curve public key. In Elliptic Curve Cryptography (ECC), a public key consists of two separate values: x and y, which represent the coordinates of a point on the elliptic curve.
+
+In ECC, the public key is a point on the elliptic curve, and it is expressed as two coordinates (x, y), both typically in hexadecimal format.
+
+Why the Key Is Split into x and y Coordinates:
+
+	1.	Public Key as a Point:
+	•	In ECC, the public key is not a single value but a point on the elliptic curve. This point is defined by its two coordinates x and y over the chosen elliptic curve.
+	•	These coordinates are large integers, typically represented in hexadecimal format to reduce the size when printed or stored.
+	2.	Elliptic Curve Equation:
+	•	For example, the elliptic curve secp256r1 (also known as P-256) is defined by the equation:
+
+y^2 = x^3 + ax + b \ (\text{mod} \ p)
+
+	•	The public key is a point P(x, y) that lies on this curve. Both x and y are necessary to define the point.
+	3.	Storage of the Key:
+	•	These two values are often encoded together into a single string (e.g., in ASN.1 DER, PEM, or other formats). But in your current output, you are simply printing the x and y values as separate entities.
+	•	Some libraries or applications concatenate the x and y values to form one long string (typically prefixed with 04 in uncompressed form).
+
+### How to Convert x and y into a Single Key String
+
