@@ -21,7 +21,6 @@ BIGNUM* generate_private_key(const BIGNUM* order) {
 }
 
 // Derive shared secret using ECDH (Elliptic Curve Diffie-Hellman)
-// Derive shared secret using ECDH (Elliptic Curve Diffie-Hellman)
 BIGNUM* derive_shared_secret(EC_GROUP* ec_group, const EC_POINT* public_key, const BIGNUM* private_key, BN_CTX* ctx) {
     BIGNUM* shared_secret = BN_new();
     EC_POINT* shared_point = EC_POINT_new(ec_group);
