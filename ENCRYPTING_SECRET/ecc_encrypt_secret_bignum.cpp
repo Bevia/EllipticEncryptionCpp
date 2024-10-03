@@ -165,6 +165,12 @@ int main() {
     BN_CTX* ctx = BN_CTX_new();
 
     // Create elliptic curve group (secp256r1 curve)
+    /*
+    secp256r1:
+	•	Defined by the Standards for Efficient Cryptography Group (SECG) in “SEC 2: Recommended Elliptic Curve Domain Parameters”.
+	•	The “r1” signifies that this is the first revision of the curve parameters.
+	•	secp256r1 is an elliptic curve over a prime field where the prime is a 256-bit number.
+    */
     EC_GROUP* ec_group = EC_GROUP_new_by_curve_name(NID_X9_62_prime256v1);
     if (!ec_group) {
         std::cerr << "Error: Failed to create EC_GROUP." << std::endl;
