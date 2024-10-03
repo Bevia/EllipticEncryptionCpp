@@ -32,7 +32,7 @@ In summary, elliptic encryption refers to cryptographic techniques that leverage
 
 About — secp256r1, prime256v1, NIST P-256, and 1.2.840.10045.3.1.7 — all refer to the same elliptic curve used in cryptography. Specifically, they represent a widely used elliptic curve standardized by various organizations for public key cryptography, particularly in Elliptic Curve Cryptography (ECC).
 
-Breakdown of Terms:
+### Breakdown of Terms:
 
 1.	secp256r1:
 	•	Defined by the Standards for Efficient Cryptography Group (SECG) in “SEC 2: Recommended Elliptic Curve Domain Parameters”.
